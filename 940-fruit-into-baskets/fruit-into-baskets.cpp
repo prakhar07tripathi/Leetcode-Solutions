@@ -7,12 +7,14 @@ public:
         int fruitcnt = 0;
         while(r < fruits.size()){
             mpp[fruits[r]]++;
-                while(mpp.size() > 2){
+                if(mpp.size() > 2){
                     mpp[fruits[l]]--;
                     if(!mpp[fruits[l]])mpp.erase(fruits[l]);
                     l++;
                 }
-                fruitcnt = max(fruitcnt, r-l+1);
+                if(mpp.size() <= 2){
+                        fruitcnt = max(fruitcnt, r-l+1);
+                    }
                 r++;
         }
         return fruitcnt;
