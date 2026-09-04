@@ -1,28 +1,30 @@
 class Solution {
     private:
-    bool stable(vector<int> nums, int i, int k){
-        if(localmax(nums, i) - localmin(nums, i) <= k)return true;
-        return false;
-    }
-    int localmax(vector<int> nums, int i){
-        int maxi = -1;
-        for(int j = 0; j <= i; j++){
-            maxi = max(maxi, nums[j]);
+    vector<int> prefixmax(vector<int> nums){
+        int n = nums.size();
+        vector<int> prefmax(n);
+        prefmax[0] = nums[0];
+        for(int i = 1; i < n; i++){
+            prefmax[i] = max(prefmax[i-1], nums[i]); 
         }
-        return maxi;
+        return prefmax;
     }
-    int localmin(vector<int> nums, int i){
-        int mini = nums[i];
-        for(int j = i; j < nums.size(); j++){
-            mini = min(mini, nums[j]);
+    vector<int> suffixmin(vector<int> nums){
+        int n = nums.size();
+        vector<int> suffmin(n);
+        suffmin[n-1] = nums[n-1];
+        for(int i = n-2; i >= 0; i--){
+            suffmin[i] = min(suffmin[i+1], nums[i]); 
         }
-        return mini;
+        return suffmin;
     }
 public:
     int firstStableIndex(vector<int>& nums, int k) {
         int minstable = INT_MAX;
+        vector<int>prefmax = prefixmax(nums);
+        vector<int>suffmin = suffixmin(nums);
         for(int i = 0; i < nums.size(); i++){
-            if(stable(nums, i, k)){
+            if(prefmax[i] - suffmin[i] <= k){
                 minstable = min(minstable, i);
             }
         }
