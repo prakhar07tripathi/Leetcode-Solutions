@@ -20,15 +20,13 @@ class Solution {
     }
 public:
     int firstStableIndex(vector<int>& nums, int k) {
-        int minstable = INT_MAX;
         vector<int>prefmax = prefixmax(nums);
         vector<int>suffmin = suffixmin(nums);
         for(int i = 0; i < nums.size(); i++){
             if(prefmax[i] - suffmin[i] <= k){
-                minstable = min(minstable, i);
+                return i;
             }
         }
-        if(minstable == INT_MAX)return -1;
-        return minstable;
+        return -1;
     }
 };
