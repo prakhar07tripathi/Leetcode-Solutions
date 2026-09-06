@@ -32,7 +32,6 @@ public:
             }
             r++;
         }
-        if(minlen == INT_MAX)return "";
-        return s.substr(arr[0], arr[1]-arr[0] + 1);
+        return minlen == INT_MAX ? "" : s.substr(arr[0], arr[1]-arr[0] + 1);
     }
 };
