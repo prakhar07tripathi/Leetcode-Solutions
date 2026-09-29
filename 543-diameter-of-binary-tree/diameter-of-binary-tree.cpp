@@ -11,22 +11,25 @@
  */
 class Solution {
     private:
-    int height(TreeNode* temp){
+    int height(TreeNode* temp, int &maxdia){
         if(!temp) return 0;
-        return max(height(temp->left), height(temp->right)) + 1;
+        int l = height(temp->left, maxdia);
+        int r = height(temp->right, maxdia);
+        maxdia = max(maxdia, l+r);
+        return 1 + max(l, r);
     }
-    int maxdiameter(TreeNode* temp, int &maxdia){
-        if(!temp)return maxdia;
-        int l = height(temp->left);
-        int r = height(temp->right);
-        maxdia = max(maxdia, l + r);
-        return max(maxdiameter(temp->left, maxdia), maxdiameter(temp->right, maxdia));
-    }
+    // int maxdiameter(TreeNode* temp, int &maxdia){
+    //     if(!temp)return maxdia;
+    //     int l = height(temp->left);
+    //     int r = height(temp->right);
+    //     maxdia = max(maxdia, l + r);
+    //     return max(maxdiameter(temp->left, maxdia), maxdiameter(temp->right, maxdia));
+    // }
     
     public:
     int diameterOfBinaryTree(TreeNode* root) {
         int maxdia = 0;
-        maxdiameter(root, maxdia);
+        height(root, maxdia);
         return maxdia;
     }
 };
