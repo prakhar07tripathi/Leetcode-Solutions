@@ -10,33 +10,19 @@
  * };
  */
 class Solution {
-    bool symmetric(queue<struct TreeNode*> &q){
-        if(q.empty())return true;
-        vector<struct TreeNode*> dup;
-        while(q.size()){
-            dup.push_back(q.front());
-            q.pop();
-        }
-        for(int i = 0; i < dup.size(); i++){
-            if(dup[i] == NULL)continue;
-                q.push(dup[i]->left);
-                q.push(dup[i]->right);
-        }
-        int i = 0;
-        int j = dup.size() - 1;
-        while(i < j){
-            if((!dup[i] && dup[j]) || (dup[i] && !dup[j]))return false;
-            else if(dup[i] && dup[j] && dup[i]->val != dup[j]->val)return false;
-            i++;
-            j--;
-        }
-        return symmetric(q);
+    private:
+    bool symmetric(TreeNode* &tempL, TreeNode* &tempR){
+    if(!tempL && !tempR)return true;
+    else if((tempL && !tempR) || (tempR && !tempL))return false;
+    return (tempL->val == tempR->val) && symmetric(tempL->left, tempR->right) && symmetric(tempL->right, tempR->left);
     }
 public:
     bool isSymmetric(TreeNode* root) {
         // we must check levelwise  symmetry and hence we use DFS(level order traversal)
-        queue<struct TreeNode*> q;
-        q.push(root);
-        return symmetric(q);
+        TreeNode* tempL = root->left;
+        TreeNode* tempR = root->right;
+        if(!tempL && !tempR)return true;
+        else if((tempL && !tempR) || (tempR && !tempL))return false;
+        return symmetric(tempL, tempR);
     }
 };
