@@ -8,9 +8,7 @@ public:
             if(s[i] == '(')depth++;
             else depth--;
             if(depth == 0){
-                for(int j = start+1; j < i; j++){
-                    res.push_back(s[j]);
-                }
+                res += (s.substr(start+1, i - start - 1));
                 start = i+1;
             }
         }
