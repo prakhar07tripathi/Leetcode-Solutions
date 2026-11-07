@@ -11,23 +11,17 @@
  */
 class Solution {
     private:
-    TreeNode* LL(TreeNode* &temp){
-        if(!temp)return NULL;
-        TreeNode* left = LL(temp->left);
-        TreeNode* right = LL(temp->right);
-        if(temp->left){
-            TreeNode* orgRight = temp->right;
-            temp->right = temp->left;
-            temp->left = nullptr;
-            left->right = orgRight;
-        }
-        if(right)return right;
-        if(left)return left;
-        return temp;
-        
+    void LL(TreeNode* &temp, TreeNode* &prev){
+        if(!temp)return;
+        LL(temp->right, prev);
+        LL(temp->left, prev);
+        temp->right = prev;
+        temp->left = NULL;
+        prev = temp;
     }
 public:
     void flatten(TreeNode* root) {
-        LL(root);
+        TreeNode* prev = NULL;
+        LL(root, prev);
     }
 };
